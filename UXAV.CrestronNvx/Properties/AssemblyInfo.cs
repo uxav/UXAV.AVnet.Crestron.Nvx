@@ -1,14 +1,14 @@
-﻿using System.Reflection;
+using System.Reflection;
 using System.Runtime.InteropServices;
 
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("UXAV.DeviceTemplate")]
+[assembly: AssemblyTitle("UXAV.CrestronNvx")]
 [assembly: AssemblyDescription("Device control for a device")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("UXAV")]
-[assembly: AssemblyProduct("UXAV.DeviceTemplate")]
+[assembly: AssemblyProduct("UXAV.CrestronNvx")]
 [assembly: AssemblyCopyright("Copyright © UXAV 2020")]
 
 // Setting ComVisible to false makes the types in this assembly not visible 

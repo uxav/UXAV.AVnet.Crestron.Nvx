@@ -1,4 +1,4 @@
-# UXAV.DeviceTemplate
+# UXAV.CrestronNvx
 
 Template project contents to be replaced.
 
