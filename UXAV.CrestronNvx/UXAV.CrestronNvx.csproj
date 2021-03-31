@@ -230,8 +230,8 @@
           <Private>True</Private>
         </Reference>
         <Reference Include="System.Xml" />
-        <Reference Include="UXAV.AVnetCore, Version=1.0.0.28401, Culture=neutral, PublicKeyToken=null">
-          <HintPath>..\packages\UXAV.AVnetCore.1.0.0-beta-03\lib\net47\UXAV.AVnetCore.dll</HintPath>
+        <Reference Include="UXAV.AVnetCore, Version=1.0.0.23630, Culture=neutral, PublicKeyToken=null">
+          <HintPath>..\packages\UXAV.AVnetCore.1.0.0-beta-04\lib\net47\UXAV.AVnetCore.dll</HintPath>
           <Private>True</Private>
         </Reference>
         <Reference Include="UXAV.Logging, Version=1.1.7.17387, Culture=neutral, PublicKeyToken=null">
