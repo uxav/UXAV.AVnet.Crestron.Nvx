@@ -1,4 +1,4 @@
-# UXAV.CrestronNvx
+# UXAV.AVnet.Crestron.Nvx
 
 AVnet wrapper for Crestron NVX control
 
