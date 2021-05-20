@@ -1,6 +1,6 @@
 
 Microsoft Visual Studio Solution File, Format Version 12.00
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UXAV.CrestronNvx", "UXAV.CrestronNvx\UXAV.CrestronNvx.csproj", "{3F50C7F6-51ED-4B02-8FD1-A6A72B39A9A3}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UXAV.AVnet.Crestron.Nvx", "UXAV.AVnet.Crestron.Nvx\UXAV.AVnet.Crestron.Nvx.csproj", "{3F50C7F6-51ED-4B02-8FD1-A6A72B39A9A3}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
