@@ -2,10 +2,10 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using Crestron.SimplSharpPro.DM.Streaming;
-using UXAV.AVnetCore.DeviceSupport;
+using UXAV.AVnet.Core.DeviceSupport;
 using UXAV.Logging;
 
-namespace UXAV.CrestronNvx
+namespace UXAV.AVnet.Crestron.Nvx
 {
     public static class NvxControl
     {

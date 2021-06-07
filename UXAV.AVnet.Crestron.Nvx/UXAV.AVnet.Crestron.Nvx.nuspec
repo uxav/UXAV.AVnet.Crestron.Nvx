@@ -8,10 +8,10 @@
     <owners>$author$</owners>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <license type="expression">MIT</license>
-    <projectUrl>https://github.com/uxav/CrestronNvx/</projectUrl>
-    <repository type="git" url="https://github.com/uxav/CrestronNvx.git"/>
+    <projectUrl>https://github.com/uxav/UXAV.AVnet.Crestron.Nvx/</projectUrl>
+    <repository type="git" url="https://github.com/uxav/UXAV.AVnet.Crestron.Nvx.git"/>
     <description>$description$</description>
-    <copyright>Copyright 2020 UXAV Solutions Limited</copyright>
+    <copyright>$copyright$</copyright>
     <tags>uxav avnet crestron simplsharp simplsharppro</tags>
   </metadata>
 </package>
