@@ -97,8 +97,16 @@ namespace UXAV.AVnet.Crestron.Nvx
                 SelectSubscribedStream(decoderIpId, 0);
                 return;
             }
+
+            var streams = GetSubscribedStreams(decoderIpId);
+            if (streams.All(s => s.Value.SessionNameFeedback.StringValue != streamName))
+            {
+                Logger.Error($"Cannot route stream named: {streamName} to decoder with ip id: {decoderIpId:X2}");
+                return;
+            }
+
             var stream = GetSubscribedStreams(decoderIpId)
-                .FirstOrDefault(s => s.Value.SessionNameFeedback.StringValue == streamName).Key;
+                .First(s => s.Value.SessionNameFeedback.StringValue == streamName).Key;
             SelectSubscribedStream(decoderIpId, stream);
         }
 
@@ -134,8 +142,11 @@ namespace UXAV.AVnet.Crestron.Nvx
         public static DmNvxBaseClass GetOrCreateEndpoint(string typeName, uint ipId, string description)
         {
             if (CipDevices.ContainsDevice(ipId)) return CipDevices.GetDevice<DmNvxBaseClass>(ipId);
+            var value = typeof(DmNvxBaseClass).Namespace;
+            if (value == null || typeName.StartsWith(value))
+                return (DmNvxBaseClass)CipDevices.CreateDevice(typeName, ipId, description);
             var fullName = typeof(DmNvxBaseClass).Namespace + "." + typeName;
-            return (DmNvxBaseClass) CipDevices.CreateDevice(fullName, ipId, description);
+            return (DmNvxBaseClass)CipDevices.CreateDevice(fullName, ipId, description);
         }
 
         public static DmNvxBaseClass[] GetRoutedEndpoints(uint streamIndex)
