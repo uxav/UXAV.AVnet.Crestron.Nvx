@@ -29,6 +29,10 @@ namespace UXAV.AVnet.Crestron.Nvx
                 if (CipDevices.ContainsDevice(encoderIpId))
                     tx = CipDevices.GetDevice<DmNvxBaseClass>(encoderIpId);
                 var rx = CipDevices.GetDevice<DmNvxBaseClass>(decoderIpId);
+                if (tx != null && string.IsNullOrEmpty(tx.Control.ServerUrlFeedback.StringValue))
+                {
+                    throw new OperationCanceledException("The encoder does not have a stream URL set!");
+                }
                 rx.Control.ServerUrl.StringValue = tx != null ? tx.Control.ServerUrlFeedback.StringValue : string.Empty;
                 if(rx is DmNvxD3x) return;
                 rx.Control.VideoSource = eSfpVideoSourceTypes.Stream;
