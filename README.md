@@ -22,7 +22,6 @@
 - [Quick start](#quick-start)
 - [Links](#links)
 - [Dependencies](#dependencies)
-- [Documentation](#documentation)
 - [Release Notes](#release-notes)
 - [Contributing](#contributing)
 - [License](LICENSE)
@@ -34,61 +33,25 @@ To use this test library in your project, follow these steps:
 1. Install the package via NuGet. You can use the following command in the Package Manager Console:
 
    ```
-    dotnet add [<PROJECT>] package UXAV.AVnet.Core
+    dotnet add [<PROJECT>] package UXAV.AVnet.Crestron.Nvx
    ```
 
 2. Import the library classes in your code file(s):
 
    ```csharp
-   using UXAV.AVnet.Core.Models;
-   using UXAV.AVnet.Core.Models.Diagnostics;
-   using UXAV.Logging;
+   // Import Crestron DM
+   using Crestron.SimplSharpPro.DM.Streaming;
+
+   // Import NVX from AVnet
+   using UXAV.AVnet.Crestron.Nvx;
    ```
 
 3. Create a class that inherits from SystemBase:
 
    ```csharp
-   public class MySystem : SystemBase
-   {
-      public MySystem(CrestronControlSystem controlSystem) : base(controlSystem)
-      {
-         // create all your instance logic here and any instances of rooms, devices or
-      }
-
-      protected override void AppShouldRunUpgradeScripts()
-      {
-         // called when the program starts with a new version number
-      }
-
-      protected override void OnProgramStatusEventHandler(eProgramStatusEventType eventType)
-      {
-         if (eventType == eProgramStatusEventType.Stopping)
-         {
-            // anything you need to save, disconnect or stop... the program is stopping
-         }
-      }
-
-      protected override IEnumerable<DiagnosticMessage> GenerateDiagnosticMessages()
-      {
-         return new DiagnosticMessage[]
-         {
-            // add any diagnostic messages here,
-            // this is called for when the system needs to update the
-            // status of stuff or the dashboard app requests it
-         };
-      }
-
-      protected override void SystemShouldAddItemsToInitialize(Action<IInitializable> addItem)
-      {
-         addItem(myDeviceWithInitialization);
-         addItem(myOtherDeviceWithInitialization);
-      }
-
-      protected override void WebScriptingHandlersShouldRegister()
-      {
-         // any web scripting handlers for API's can and should register here (see docs)
-      }
-   }
+   // Get or create an endpoint passing in the fully qualified name of the device type required.
+   // If not registered, one is registered automatically in the framework
+   var dm = NvxControl.GetOrCreateEndpoint(typeof(DmNvx350).FullName, 0x20, "My DM Receiver");
    ```
 
 4. Load and Initialize your main instance of system
@@ -128,41 +91,20 @@ To use this test library in your project, follow these steps:
 
 ## Links
 
-GitHub Repository: [AVnetCore](https://github.com/uxav/AVnetCore)
+GitHub Repository: [AVnetCore](https://github.com/uxav/UXAV.AVnet.Crestron.Nvx)
 
-NuGet Package: [UXAV.AVnet.Core](https://www.nuget.org/packages/UXAV.AVnet.Core/)
+NuGet Package: [UXAV.AVnet.Core](https://www.nuget.org/packages/UXAV.AVnet.Crestron.Nvx)
 
 ## Dependencies
 
-- [UXAV.Logging](https://www.nuget.org/packages/UXAV.Logging)
-- [Crestron.SimpleSharp.SDK.ProgramLibrary](https://www.nuget.org/packages/Crestron.SimplSharp.SDK.ProgramLibrary)
-- [Crestron.SimplSharp.SDK.ProgramLibrary](https://www.nuget.org/packages/)
-- [Cronos](https://www.nuget.org/packages/Cronos)
-- [CsvHelper](https://www.nuget.org/packages/CsvHelper)
-- [Figgle](https://www.nuget.org/packages/Figgle)
-- [Microsoft.AspNet.WebApi.Client](https://www.nuget.org/packages/Microsoft.AspNet.WebApi.Client)
-- [Microsoft.CSharp](https://www.nuget.org/packages/Microsoft.CSharp)
-- [MimeTypes](https://www.nuget.org/packages/MimeTypes)
-- [Newtonsoft.Json](https://www.nuget.org/packages/Newtonsoft.Json)
-- [Newtonsoft.Json.Schema](https://www.nuget.org/packages/Newtonsoft.Json.Schema)
-- [System.IO.Compression](https://www.nuget.org/packages/System.IO.Compression)
-- [System.Net.Http](https://www.nuget.org/packages/System.Net.Http)
-- [System.Reflection.MetadataLoadContext](https://www.nuget.org/packages/System.Reflection.MetadataLoadContext)
-- [System.Runtime.Serialization.Json](https://www.nuget.org/packages/System.Runtime.Serialization.Json)
-- [UXAV.Logging](https://www.nuget.org/packages/UXAV.Logging)
-- [WebSocketSharp-netstandard](https://www.nuget.org/packages/WebSocketSharp-netstandard)
+- [Crestron.SimplSharp.SDK.ProgramLibrary](https://www.nuget.org/packages/Crestron.SimplSharp.SDK.ProgramLibrary)
+- [UXAV.AVnet.Core](https://www.nuget.org/packages/UXAV.AVnet.Core)
 
 ## Release Notes
 
 ### v2.0.0
 
 - Reconfigured workspace to new style SDK format and added support for .NET 6.0
-- MidnightNotifier removed completely, use a [CronJob](UXAV.AVnet.Core/CronJobs.cs)
--
-
-## Documentation
-
-Documentation can be viewed in [GitHub Pages](https://uxav.github.io/AVnetCore)
 
 ## Contributing
 
