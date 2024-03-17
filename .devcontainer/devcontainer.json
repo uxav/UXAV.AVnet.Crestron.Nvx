@@ -1,0 +1,16 @@
+{
+    "name": "NVX Library",
+	"image": "mcr.microsoft.com/devcontainers/dotnet:1-8.0-bookworm",
+	"customizations": {
+		"vscode": {
+			"extensions": [
+				"ms-dotnettools.csdevkit",
+				"ms-dotnettools.csharp",
+				"ms-dotnettools.vscodeintellicode-csharp",
+				"ms-vscode.powershell",
+				"esbenp.prettier-vscode",
+				"github.vscode-github-actions"
+			]
+		}
+	}
+}

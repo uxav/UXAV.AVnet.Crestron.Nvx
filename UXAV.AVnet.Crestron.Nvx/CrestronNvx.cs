@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Crestron.SimplSharpPro;
 using Crestron.SimplSharpPro.DM;
 using Crestron.SimplSharpPro.DM.Streaming;
 using UXAV.AVnet.Core.DeviceSupport;
@@ -34,7 +35,7 @@ namespace UXAV.AVnet.Crestron.Nvx
                     throw new OperationCanceledException("The encoder does not have a stream URL set!");
                 }
                 rx.Control.ServerUrl.StringValue = tx != null ? tx.Control.ServerUrlFeedback.StringValue : string.Empty;
-                if(rx is DmNvxD3x) return;
+                if (rx is DmNvxD3x) return;
                 rx.Control.VideoSource = eSfpVideoSourceTypes.Stream;
             }
             catch (Exception e)
@@ -139,6 +140,23 @@ namespace UXAV.AVnet.Crestron.Nvx
             return list;
         }
 
+        /// <summary>
+        ///   Get or create a DM NVX device
+        ///   If the device is already in the system, it will be returned,
+        ///   otherwise it will be created and registered before being returned.
+        /// </summary>
+        /// <param name="typeName">
+        ///   The fully qualified name of the device or just the name of the device.
+        ///   <example>typeof(DmNvx350).FullName</example>
+        ///   <example>"DmNvx361C"</example>
+        ///   <example>"Crestron.SimplSharpPro.DM.Streaming.DmNvx361C"</example>
+        /// </param>
+        /// <param name="ipId">The IP ID of the device</param>
+        /// <param name="description">
+        ///   A description which gets added to the device in the IP table
+        ///   <see cref="GenericBase.Description" />
+        /// </param>
+        /// <returns>The NVX device as <see cref="DmNvxBaseClass"/></returns>
         public static DmNvxBaseClass GetOrCreateEndpoint(string typeName, uint ipId, string description)
         {
             if (CipDevices.ContainsDevice(ipId)) return CipDevices.GetDevice<DmNvxBaseClass>(ipId);
@@ -147,6 +165,23 @@ namespace UXAV.AVnet.Crestron.Nvx
                 return (DmNvxBaseClass)CipDevices.CreateDevice(typeName, ipId, description);
             var fullName = typeof(DmNvxBaseClass).Namespace + "." + typeName;
             return (DmNvxBaseClass)CipDevices.CreateDevice(fullName, ipId, description);
+        }
+
+        /// <summary>
+        ///   Get or create a DM NVX device
+        ///   If the device is already in the system, it will be returned,
+        ///   otherwise it will be created and registered before being returned.
+        /// </summary>
+        /// <typeparam name="T">The type of NVX device</typeparam>
+        /// <param name="ipId">The IP ID of the device</param>
+        /// <param name="description">
+        ///   A description which gets added to the device in the IP table
+        ///   <see cref="GenericBase.Description" />
+        /// </param>
+        /// <returns>The returned or created NVX device</returns>
+        public static T GetOrCreateEndpoint<T>(uint ipId, string description) where T : DmNvxBaseClass
+        {
+            return (T)GetOrCreateEndpoint(typeof(T).FullName, ipId, description);
         }
 
         public static DmNvxBaseClass[] GetRoutedEndpoints(uint streamIndex)

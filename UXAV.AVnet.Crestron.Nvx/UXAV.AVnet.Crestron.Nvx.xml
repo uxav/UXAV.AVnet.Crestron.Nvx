@@ -1,0 +1,38 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>UXAV.AVnet.Crestron.Nvx</name>
+    </assembly>
+    <members>
+        <member name="M:UXAV.AVnet.Crestron.Nvx.NvxControl.RouteStream(System.UInt32,System.UInt32)">
+            <summary>
+            Routes stream from one encoder to another.
+            Automatically sets source as stream on receiver.
+            This is not supported by "DmNvxD30" and "DmNvxD30C" devices.
+            </summary>
+            <param name="encoderIpId">IP ID of encoder</param>
+            <param name="decoderIpId">IP ID of decoder</param>
+            <exception cref="T:System.ArgumentException">IP ID does not exist in system</exception>
+            <exception cref="T:System.OperationCanceledException">Routing operation failed</exception>
+        </member>
+        <member name="M:UXAV.AVnet.Crestron.Nvx.NvxControl.SetSource(System.UInt32,Crestron.SimplSharpPro.DM.Streaming.eSfpVideoSourceTypes)">
+            <summary>
+            Select source input on encoder or decoder types
+            This method is not supported by DMF-XX-4K-SFP,"DmNvxD30","DmNvxD30C","DmNvxE30","DmNvxE30C","DmNvxE31" and "DmNvxE31C" devices.
+            </summary>
+            <param name="ipId">IP ID of encoder / decoder</param>
+            <param name="source"><see cref="T:Crestron.SimplSharpPro.DM.Streaming.eSfpVideoSourceTypes"/>The source of the input</param>
+            <exception cref="T:System.ArgumentException">IP ID does not exist in system</exception>
+            <exception cref="T:System.OperationCanceledException">Routing operation failed</exception>
+        </member>
+        <member name="M:UXAV.AVnet.Crestron.Nvx.NvxControl.SelectSubscribedStream(System.UInt32,System.UInt16)">
+            <summary>
+            Selects the video source from choice of subscribed streams
+            </summary>
+            <param name="decoderIpId">IP ID of decoder</param>
+            <param name="stream">Subscribed stream index</param>
+            <exception cref="T:System.ArgumentException">IP ID does not exist in system</exception>
+            <exception cref="T:System.OperationCanceledException">Routing operation failed</exception>
+        </member>
+    </members>
+</doc>
