@@ -91,9 +91,9 @@ To use this test library in your project, follow these steps:
 
 ## Links
 
-GitHub Repository: [AVnetCore](https://github.com/uxav/UXAV.AVnet.Crestron.Nvx)
+GitHub Repository: [UXAV.AVnet.Crestron.Nvx](https://github.com/uxav/UXAV.AVnet.Crestron.Nvx)
 
-NuGet Package: [UXAV.AVnet.Core](https://www.nuget.org/packages/UXAV.AVnet.Crestron.Nvx)
+NuGet Package: [UXAV.AVnet.Crestron.Nvx](https://www.nuget.org/packages/UXAV.AVnet.Crestron.Nvx)
 
 ## Dependencies
 
