@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Crestron.SimplSharpPro.DM;
 using Crestron.SimplSharpPro.DM.Streaming;
 using UXAV.AVnet.Core.DeviceSupport;
 using UXAV.Logging;
@@ -20,15 +21,20 @@ namespace UXAV.AVnet.Crestron.Nvx
         /// <exception cref="OperationCanceledException">Routing operation failed</exception>
         public static void RouteStream(uint encoderIpId, uint decoderIpId)
         {
-            if (!CipDevices.ContainsDevice(encoderIpId))
-                throw new ArgumentException($"No device with ID 0x{encoderIpId:X2}", nameof(encoderIpId));
             if (!CipDevices.ContainsDevice(decoderIpId))
                 throw new ArgumentException($"No device with ID 0x{decoderIpId:X2}", nameof(decoderIpId));
             try
             {
-                var tx = CipDevices.GetDevice<DmNvxBaseClass>(encoderIpId);
+                DmNvxBaseClass tx = null;
+                if (CipDevices.ContainsDevice(encoderIpId))
+                    tx = CipDevices.GetDevice<DmNvxBaseClass>(encoderIpId);
                 var rx = CipDevices.GetDevice<DmNvxBaseClass>(decoderIpId);
-                rx.Control.ServerUrl.StringValue = tx.Control.ServerUrlFeedback.StringValue;
+                if (tx != null && string.IsNullOrEmpty(tx.Control.ServerUrlFeedback.StringValue))
+                {
+                    throw new OperationCanceledException("The encoder does not have a stream URL set!");
+                }
+                rx.Control.ServerUrl.StringValue = tx != null ? tx.Control.ServerUrlFeedback.StringValue : string.Empty;
+                if(rx is DmNvxD3x) return;
                 rx.Control.VideoSource = eSfpVideoSourceTypes.Stream;
             }
             catch (Exception e)
@@ -55,13 +61,8 @@ namespace UXAV.AVnet.Crestron.Nvx
                 var device = CipDevices.GetDevice<DmNvxBaseClass>(ipId);
                 device.Control.VideoSource = source;
             }
-            catch (InvalidOperationException)
-            {
-                // ignore. device probably doesn't support
-            }
             catch (Exception e)
             {
-                Logger.Error(e);
                 throw new OperationCanceledException(
                     "Cancelled due to a problem setting the source. See inner exception", e);
             }
@@ -101,8 +102,7 @@ namespace UXAV.AVnet.Crestron.Nvx
             var streams = GetSubscribedStreams(decoderIpId);
             if (streams.All(s => s.Value.SessionNameFeedback.StringValue != streamName))
             {
-                Logger.Error($"Cannot route stream named: {streamName} to decoder with ip id: {decoderIpId:X2}");
-                return;
+                throw new ArgumentException("Steam name not found", nameof(streamName));
             }
 
             var stream = GetSubscribedStreams(decoderIpId)
@@ -153,7 +153,7 @@ namespace UXAV.AVnet.Crestron.Nvx
         {
             var results = new List<DmNvxBaseClass>();
             foreach (var endpoint in CipDevices.GetDevices<DmNvxBaseClass>()
-                .Where(endpoint => endpoint.Control.DeviceModeFeedback == eDeviceMode.Receiver))
+                         .Where(endpoint => endpoint.Control.DeviceModeFeedback == eDeviceMode.Receiver))
             {
                 if (endpoint.XioRouting.VideoOutFeedback.UShortValue != streamIndex || streamIndex <= 0) continue;
                 if (endpoint is DmNvx350 && endpoint.Control.VideoSourceFeedback == eSfpVideoSourceTypes.Stream)
@@ -173,7 +173,7 @@ namespace UXAV.AVnet.Crestron.Nvx
         {
             var results = new List<DmNvxBaseClass>();
             foreach (var endpoint in CipDevices.GetDevices<DmNvxBaseClass>()
-                .Where(endpoint => endpoint.Control.DeviceModeFeedback == eDeviceMode.Receiver))
+                         .Where(endpoint => endpoint.Control.DeviceModeFeedback == eDeviceMode.Receiver))
             {
                 if (endpoint.XioRouting.VideoOutFeedback.UShortValue <= 0) continue;
                 var routingInput = endpoint.XioRouting.Input[endpoint.XioRouting.VideoOutFeedback.UShortValue];
@@ -190,6 +190,26 @@ namespace UXAV.AVnet.Crestron.Nvx
             }
 
             return results.ToArray();
+        }
+
+        public static DmNvxBaseClass GetEndpoint(uint deviceIpId)
+        {
+            if (!CipDevices.ContainsDevice(deviceIpId))
+                throw new ArgumentException($"No device with ID 0x{deviceIpId:X2}", nameof(deviceIpId));
+            return CipDevices.GetDevice<DmNvxBaseClass>(deviceIpId);
+        }
+
+        public static string GetDmInputEventIdName(int value)
+        {
+            var type = typeof(DMInputEventIds);
+            foreach (var field in type.GetFields())
+            {
+                if (field.FieldType != typeof(int)) continue;
+                var v = (int)field.GetValue(null);
+                if (v == value) return field.Name;
+            }
+
+            return "Unknown ID " + value;
         }
     }
 }
