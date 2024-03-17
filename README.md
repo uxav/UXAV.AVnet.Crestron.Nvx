@@ -15,8 +15,6 @@
    <img alt="Licnse" src="https://img.shields.io/github/license/uxav/UXAV.AVnet.Crestron.Nvx?style=flat">
 </p>
 
-<p align="center"><a href="https://uxav.github.io/AVnetCore">Explore Docs</a></p>
-
 ## Index
 
 - [Quick start](#quick-start)
