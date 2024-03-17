@@ -1,5 +1,5 @@
 <p align="center">
-   <img src="docs/assets/avnet_logo.svg">
+   <img src="avnet_logo.svg">
 </p>
 
 <h1 align="center">AVnet NVX Library</a></h1>
@@ -46,47 +46,12 @@ To use this test library in your project, follow these steps:
    using UXAV.AVnet.Crestron.Nvx;
    ```
 
-3. Create a class that inherits from SystemBase:
+3. Create your DM NVX devices:
 
    ```csharp
    // Get or create an endpoint passing in the fully qualified name of the device type required.
    // If not registered, one is registered automatically in the framework
    var dm = NvxControl.GetOrCreateEndpoint(typeof(DmNvx350).FullName, 0x20, "My DM Receiver");
-   ```
-
-4. Load and Initialize your main instance of system
-
-   ```csharp
-   public class ControlSystem : CrestronControlSystem
-   {
-      private readonly SystemBase _mySystem;
-
-      public ControlSystem()
-      {
-         try
-         {
-            // create your instance of MySystem
-            _mySystem = new MySystem(this);
-         }
-         catch (Exception e)
-         {
-            Logger.Error(e);
-         }
-      }
-
-      public override void InitializeSystem()
-      {
-         try
-         {
-            // start the initializing of MySystem
-            _mySystem?.Initialize();
-         }
-         catch (Exception e)
-         {
-            Logger.Error(e);
-         }
-      }
-   }
    ```
 
 ## Links
